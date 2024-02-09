@@ -1,5 +1,7 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit";
 
+import { Car } from "../../types/types";
+
 interface AddCarActionPayload {
   type: string;
   payload: {
@@ -8,22 +10,16 @@ interface AddCarActionPayload {
   };
 }
 
-interface Car {
-  name: string;
-  cost: number;
-  id: string;
-}
-
 interface InitialState {
   searchTerm: string;
-  cars: Car[];
+  carList: Car[];
 }
 
 const carsSlice = createSlice({
   name: "cars",
   initialState: {
     searchTerm: "",
-    cars: [],
+    carList: [],
   } as InitialState,
   reducers: {
     changeSearchTerm(state, action) {
@@ -31,16 +27,16 @@ const carsSlice = createSlice({
     },
     addCar(state, action: AddCarActionPayload) {
       // want to mutate the state array and add a new car
-      state.cars.push({
+      state.carList.push({
         name: action.payload.name,
         cost: action.payload.cost,
         id: nanoid(),
       });
     },
     removeCar(state, action) {
-      const updated = state.cars.filter((car) => car.id !== action.payload.id)
+      const updated = state.carList.filter((car) => car.id !== action.payload);
 
-      state.cars = updated;
+      state.carList = updated;
     },
   },
 });
